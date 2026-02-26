@@ -15,8 +15,6 @@ const authClient = new ApolloClient({
 const productsClient = new ApolloClient({
   link: createHttpLink({
     uri: "https://productservice-production-c2fd.up.railway.app/graphql",
-    credentials: "include",
-    fetch,
   }),
   cache: new InMemoryCache(),
 });
