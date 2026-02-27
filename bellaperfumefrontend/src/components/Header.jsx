@@ -7,7 +7,6 @@ import LoginPopup from './LoginPopup';
 import { productsClient, shopClient } from "../apolloClient";
 import { HashLink } from "react-router-hash-link";
 
-// GraphQL query za korpu
 const GET_CART = gql`
   query GetCart($userId: String!) {
     cart(userId: $userId) {
@@ -16,7 +15,6 @@ const GET_CART = gql`
   }
 `;
 
-// GraphQL query za favorite
 const GET_FAVORITE = gql`
   query GetFavorite($userId: String!) {
     favorite(userId: $userId) {
@@ -25,7 +23,6 @@ const GET_FAVORITE = gql`
   }
 `;
 
-// Usklađen query sa backendom
 const GET_PRODUCTS = gql`
   query GetProducts($name: String, $brandName: String, $size: Int) {
     products(name: $name, brandName: $brandName, size: $size) {
@@ -57,7 +54,6 @@ const Header = () => {
   const debounceTimeout = useRef(null);
   const inputRef = useRef(null);
 
-  // Lazy query - poziva se samo kad korisnik kuca
   const [fetchProducts, { data, loading }] = useLazyQuery(GET_PRODUCTS, {
     client: productsClient,
   });
@@ -91,14 +87,12 @@ const Header = () => {
     inputRef.current?.focus();
   };
 
-  // Scroll effect
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Check login
   useEffect(() => {
     const user = sessionStorage.getItem("user");
     if (user) setIsLoggedIn(true);
@@ -139,11 +133,9 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 transition-all duration-300">
-      {/* Top header */}
       <div className={`w-full py-3 ${isScrolled ? 'bg-gray-100/95 backdrop-blur shadow-md ' : 'bg-gray-100 '}`}>
         <div className=" mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-3 md:gap-6">
 
-          {/* Logo */}
           <div className="flex justify-between items-center w-full md:w-auto">
             <img src="/logop.png" alt="Logo" className="w-15 h-16" />
             <a href="/" className="text-xl font-bold text-black">Bella Perfumes</a>
@@ -152,10 +144,8 @@ const Header = () => {
             </button>
           </div>
 
-          {/* Search bar */}
           <div className="w-full max-w-2xl md:flex-1 relative">
             <div className="flex items-center gap-2">
-              {/* Input wrapper */}
               <div className="relative flex-1">
                 <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
                 <input
@@ -175,7 +165,6 @@ const Header = () => {
                 )}
               </div>
 
-              {/* Filter select */}
               <select
                 value={filterBy}
                 onChange={(e) => { setFilterBy(e.target.value); setSearchQuery(""); setShowDropdown(false); }}
@@ -187,7 +176,6 @@ const Header = () => {
               </select>
             </div>
 
-            {/* Dropdown */}
             {showDropdown && (
               <div className="absolute z-50 max-w-xl w-full  left-0 right-12 mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl overflow-hidden">
                 {loading && (
@@ -230,7 +218,6 @@ const Header = () => {
             )}
           </div>
 
-          {/* User icons */}
           <div className="flex items-center justify-end flex-wrap gap-2 w-full md:w-auto">
             <button className="relative p-2 text-gray-700 hover:text-pink-600 transition-colors" onClick={() => navigate("/favorite")}>
               <FiHeart size={20} />
@@ -264,7 +251,7 @@ const Header = () => {
                     <a href="/orders" className="block px-4 py-2 hover:bg-gray-100">Orders</a>
                     <button
                       className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"
-                      onClick={() => { sessionStorage.removeItem("user"); setIsLoggedIn(false); setIsUserMenuOpen(false); }}
+                      onClick={() => { sessionStorage.removeItem("user"); window.location.reload(); }}
                     >
                       Sign out
                     </button>
@@ -276,7 +263,6 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Nav bar */}
       <div className="bg-pink-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav className="hidden md:flex justify-center py-3">
@@ -298,7 +284,7 @@ const Header = () => {
         </div>
       </div>
 
-      {showLogin && <LoginPopup setShowLogin={setShowLogin} setIsLoggedIn={setIsLoggedIn} />}
+      {showLogin && <LoginPopup setShowLogin={setShowLogin} />}
     </header>
   );
 };

@@ -18,7 +18,7 @@ const REGISTER_MUTATION = gql`
   }
 `;
 
-const LoginPopup = ({ setShowLogin, setIsLoggedIn }) => {
+const LoginPopup = ({ setShowLogin }) => {
   const [currState, setCurrState] = useState("Login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,16 +37,15 @@ const LoginPopup = ({ setShowLogin, setIsLoggedIn }) => {
         variables: { input: { email, password } },
       });
 
-      // Sačuvaj GUID userId kao string
       const userToStore = {
         userId: data.login.userId,
         username: data.login.username,
         email: data.login.email,
       };
-      sessionStorage.setItem("user", JSON.stringify(userToStore));
 
-      setIsLoggedIn(true);
+      sessionStorage.setItem("user", JSON.stringify(userToStore));
       setShowLogin(false);
+      window.location.reload();
     } catch (err) {
       setErrorMessage(err.message.replace("GraphQL error: ", ""));
     }
