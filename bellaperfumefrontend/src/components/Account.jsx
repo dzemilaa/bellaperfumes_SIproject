@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { gql, useMutation } from "@apollo/client";
-import { authClient } from "../apolloClient"; // tvoj Apollo client za login/auth
+import { authClient } from "../apolloClient";
 
-// GraphQL mutation za update profila
 const UPDATE_PROFILE = gql`
   mutation UpdateProfile($input: UpdateProfileInput!) {
     updateProfile(input: $input) {
@@ -36,7 +35,7 @@ const Account = () => {
         setFormData({
           username: parsedUser.username,
           email: parsedUser.email,
-          password: "", // password ne čuvamo u session
+          password: "",
         });
       } catch {
         setUser(null);
@@ -50,7 +49,6 @@ const Account = () => {
   };
 
   const handleSave = async () => {
-    // Provera passworda
     if (formData.password && formData.password !== passwordConfirm) {
       alert("Password and confirm password do not match!");
       return;
@@ -62,13 +60,12 @@ const Account = () => {
           userId: user.userId,
           username: formData.username,
           email: formData.email,
-          password: formData.password || null, // ako je prazno, backend neće menjati
+          password: formData.password || null,
         },
       };
 
       const { data } = await updateProfile({ variables });
 
-      // update sessionStorage sa novim podacima
       const updatedUser = {
         ...user,
         username: data.updateProfile.user.username,

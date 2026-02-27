@@ -1,7 +1,6 @@
 import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 import fetch from "cross-fetch";
 
-// Auth backend (Render)
 const authClient = new ApolloClient({
   link: createHttpLink({
     uri: "https://loginservice-production-ab1f.up.railway.app/graphql",
@@ -11,7 +10,6 @@ const authClient = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-// Products backend (Render)
 const productsClient = new ApolloClient({
   link: createHttpLink({
     uri: "https://productservice-production-c2fd.up.railway.app/graphql",
@@ -19,7 +17,6 @@ const productsClient = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-// Shop backend (lokalni)
 const shopClient = new ApolloClient({
   link: createHttpLink({
     uri: "https://shopservice-production.up.railway.app/graphql",

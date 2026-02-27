@@ -28,9 +28,9 @@ const Verify = () => {
 
     verifyEmail({ variables: { token } })
       .then(({ data }) => {
-        setMessage(data.verifyEmail); // "Email verified successfully!"
+        setMessage(data.verifyEmail);
         setTimeout(() => {
-          navigate('/'); // vrati korisnika na home
+          navigate('/');
         }, 2000);
       })
       .catch((err) => {
