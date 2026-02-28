@@ -232,7 +232,7 @@ const List = () => {
               <div className="md:hidden p-4 flex flex-col gap-3">
                 <div className="flex items-center gap-3">
                   <img
-                    src={`https://res.cloudinary.com/dfnbnkwqr/image/upload/bella-perfumes${imageUrl}`}
+                    src={item.imageUrl}
                     alt={item.name}
                     className="w-16 h-16 object-cover rounded-xl shrink-0"
                   />
