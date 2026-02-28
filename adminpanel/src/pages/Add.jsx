@@ -32,7 +32,6 @@ const ADD_PRODUCT = gql`
     $price: Decimal!
     $discount: Int!
     $stock: Int!
-    $categoryId: Int!
     $brandId: Int!
     $genderId: Int!
     $size: Int!
@@ -44,7 +43,6 @@ const ADD_PRODUCT = gql`
       price: $price
       discount: $discount
       stock: $stock
-      categoryId: $categoryId
       brandId: $brandId
       genderId: $genderId
       size: $size
@@ -67,7 +65,7 @@ const Add = () => {
   const formRef = useRef();
   const [data, setData] = useState({
     name: "", description: "", price: "", size: "",
-    brandId: "", categoryId: "", genderId: "", discount: "", stock: "",
+    brandId: "", genderId: "", discount: "", stock: "",
   });
 
   const { data: brandsData, refetch: refetchBrands } = useQuery(GET_BRANDS, { client: productsClient });
@@ -113,7 +111,6 @@ const Add = () => {
     if (!data.name.trim()) return alert("Product name is required.");
     if (!data.price || isNaN(data.price)) return alert("Valid price is required.");
     if (!data.brandId) return alert("Brand is required.");
-    if (!data.categoryId) return alert("Category ID is required.");
     if (!data.genderId) return alert("Gender is required.");
     if (!image) return alert("Please upload an image.");
     const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
@@ -129,7 +126,6 @@ const Add = () => {
           price: parseFloat(data.price),
           discount: parseInt(data.discount) || 0,
           stock: parseInt(data.stock) || 0,
-          categoryId: parseInt(data.categoryId),
           brandId: parseInt(data.brandId),
           genderId: parseInt(data.genderId),
           size: parseInt(data.size) || 0,
@@ -138,7 +134,7 @@ const Add = () => {
       });
       if (res.data.addProduct.success) {
         alert("Product added successfully!");
-        setData({ name: "", description: "", price: "", size: "", brandId: "", categoryId: "", genderId: "", discount: "", stock: "" });
+        setData({ name: "", description: "", price: "", size: "", brandId: "", genderId: "", discount: "", stock: "" });
         setImage(null);
         if (formRef.current) formRef.current.reset();
       } else {
