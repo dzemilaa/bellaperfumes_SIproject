@@ -164,7 +164,7 @@ const Favorite = () => {
                 {/* Desktop row layout */}
                 <div className="hidden sm:grid sm:grid-cols-5 gap-2 items-center px-4 py-3">
                   <img
-                    src={`https://productservice-production-c2fd.up.railway.app/${item.image}`}
+                    src={item.image}
                     alt={item.name}
                     className="w-14 h-14 object-contain rounded-lg bg-gray-50"
                   />
