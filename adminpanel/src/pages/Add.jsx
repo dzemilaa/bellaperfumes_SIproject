@@ -55,7 +55,7 @@ const ADD_PRODUCT = gql`
   }
 `;
 
-const PRODUCT_SERVICE_URL = "https://localhost:32773";
+const PRODUCT_SERVICE_URL = "https://productservice-production-c2fd.up.railway.app";
 
 const Add = () => {
   const [image, setImage] = useState(null);

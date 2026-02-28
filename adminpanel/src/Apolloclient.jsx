@@ -2,7 +2,7 @@ import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 
 export const productsClient = new ApolloClient({
   link: createHttpLink({
-    uri: "https://productservice-production-c2fd.up.railway.app/graphql", // zamijeni sa tvojim ProductService portom
+    uri: "https://productservice-production-c2fd.up.railway.app/graphql",
   }),
   cache: new InMemoryCache(),
 });
