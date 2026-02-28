@@ -129,7 +129,7 @@ const Cart = () => {
               >
                 <div className="flex justify-start">
                   <img
-                    src={`https://productservice-production-c2fd.up.railway.app/${item.image}`}
+                    src={item.image}
                     alt={item.name}
                     className="w-16 h-16 object-contain rounded-lg bg-gray-50"
                   />

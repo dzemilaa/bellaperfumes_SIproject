@@ -180,7 +180,7 @@ const ProductPage = () => {
 
         <div className="flex-1 flex justify-center items-center bg-gray-50 rounded-xl p-6">
           <img
-            src={`https://productservice-production-c2fd.up.railway.app/${product.imageUrl}`}
+            src={product.imageUrl}
             alt={product.name}
             className="max-h-80 object-contain"
           />

@@ -135,7 +135,7 @@ const Favorite = () => {
                 {/* Mobile card layout */}
                 <div className="flex sm:hidden items-center gap-3 px-4 py-3">
                   <img
-                    src={`https://productservice-production-c2fd.up.railway.app/${item.image}`}
+                    src={item.image}
                     alt={item.name}
                     className="w-16 h-16 object-contain rounded-lg bg-gray-50 flex-shrink-0"
                   />

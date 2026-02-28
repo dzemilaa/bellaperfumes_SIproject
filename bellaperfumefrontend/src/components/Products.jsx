@@ -192,7 +192,7 @@ const ProductsPage = () => {
               )}
 
               <img
-                src={`https://productservice-production-c2fd.up.railway.app/${product.imageUrl}`}
+                src={product.imageUrl}
                 alt={product.name}
                 className="w-full h-64 object-contain rounded-2xl mb-4"
               />
