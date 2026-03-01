@@ -32,6 +32,7 @@ const GET_ALL_USERS = gql`
     getAllUsers {
       id
       username
+      email
     }
   }
 `;
@@ -76,7 +77,8 @@ const Reviews = () => {
 
       const map = {};
       usersRes.data.getAllUsers.forEach(u => {
-        map[u.id] = u.username;
+        if (u.id) map[u.id.toLowerCase()] = u.username;
+        if (u.email) map[u.email.toLowerCase()] = u.username;
       });
       setUsersMap(map);
       setReviews(reviewsRes.data.allReviews);
@@ -106,7 +108,7 @@ const Reviews = () => {
 
   const filteredReviews = reviews.filter((r) =>
     r.reviewText?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    usersMap[r.userId]?.toLowerCase().startsWith(searchQuery.toLowerCase())
+    usersMap[r.userId?.toLowerCase()]?.toLowerCase().startsWith(searchQuery.toLowerCase())
   );
 
 
@@ -156,7 +158,7 @@ const Reviews = () => {
             >
               <div className="hidden md:grid grid-cols-[1fr_1fr_1fr_2fr_1fr_80px] gap-3 px-4 py-3 items-center text-sm text-gray-700">
                 <p className="font-mono text-xs text-gray-400 truncate">{review.reviewId}</p>
-                <p className="font-mono text-xs text-gray-400 truncate">{usersMap[review.userId] || review.userId}</p>
+                <p className="font-mono text-xs text-gray-400 truncate">{usersMap[review.userId?.toLowerCase()] || review.userId}</p>
                 <p className="font-mono text-xs text-gray-400 truncate"> {productsMap[review.productId] || review.productId}</p>
                 <p className="text-gray-600 text-sm line-clamp-2">{review.reviewText}</p>
                 <p className="text-xs text-gray-400">
@@ -176,7 +178,7 @@ const Reviews = () => {
                 <div className="flex justify-between items-start">
                   <div className="flex flex-col gap-0.5">
                     <span className="text-sm font-semibold text-gray-700">
-                      {usersMap[review.userId] || review.userId}
+                      {usersMap[review.userId?.toLowerCase()] || review.userId}
                     </span>
                     <span className="text-xs text-gray-400">
                       {new Date(review.createdAt).toLocaleDateString("en-GB", {
