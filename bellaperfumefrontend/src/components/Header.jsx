@@ -31,6 +31,7 @@ const GET_PRODUCTS = gql`
         name
         size
         price
+        discount
         brandId
         brands {
           id
@@ -202,8 +203,17 @@ const Header = () => {
                           <span className="block text-xs text-gray-400">{product.brands?.name}</span>
                         </div>
                         <div className="text-right">
-                          <span className="text-xs text-gray-400">{product.size}ml</span>
-                          <span className="block text-xs font-semibold text-pink-600">${product.price}</span>
+                          <span className="text-[10px] text-gray-400 block">{product.size}ml</span>
+                          {product.discount > 0 ? (
+                            <div className="flex flex-col items-end">
+                              <span className="text-[10px] text-gray-400 line-through leading-none">$ {product.price}</span>
+                              <span className="text-xs font-bold text-pink-600 leading-tight">
+                                $ {(product.price * (1 - product.discount / 100)).toFixed(2)}
+                              </span>
+                            </div>
+                          ) : (
+                            <span className="block text-xs font-semibold text-pink-600">${product.price}</span>
+                          )}
                         </div>
                       </li>
                     ))}
