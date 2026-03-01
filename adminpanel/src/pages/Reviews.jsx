@@ -200,8 +200,8 @@ const Reviews = () => {
                     <span className="font-mono">{review.reviewId}</span>
                   </span>
                   <span className="text-xs text-gray-400">
-                    <span className="font-medium text-gray-500">Product ID: </span>
-                    <span className="font-mono">{review.productId}</span>
+                    <span className="font-medium text-gray-500">Product Name: </span>
+                    <span className="font-mono">{productsMap[review.productId] || review.productId}</span>
                   </span>
                 </div>
               </div>
