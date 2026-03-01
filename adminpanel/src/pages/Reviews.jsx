@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { reviewClient } from '../Apolloclient';
+import { reviewClient, productsClient } from '../Apolloclient';
 import { loginClient } from '../Apolloclient';
 import { gql } from '@apollo/client';
 
