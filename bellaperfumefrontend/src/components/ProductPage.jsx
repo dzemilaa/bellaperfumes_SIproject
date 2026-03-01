@@ -13,6 +13,7 @@ const GET_PRODUCT = gql`
         name
         size
         price
+        discount
         imageUrl
         description
         brands {
@@ -178,7 +179,12 @@ const ProductPage = () => {
     <div className="max-w-5xl mx-auto px-4 py-12">
       <div className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col md:flex-row gap-8 p-8">
 
-        <div className="flex-1 flex justify-center items-center bg-gray-50 rounded-xl p-6">
+        <div className="flex-1 flex justify-center items-center bg-gray-50 rounded-xl p-6 relative">
+          {product.discount > 0 && (
+            <div className="absolute top-4 right-4 z-10 bg-pink-600 text-white text-sm font-bold px-3 py-1 rounded-full shadow-sm">
+              -{product.discount}%
+            </div>
+          )}
           <img
             src={product.imageUrl}
             alt={product.name}
@@ -193,7 +199,16 @@ const ProductPage = () => {
             <p className="text-gray-600 mt-4 text-sm leading-relaxed">{product.description}</p>
           </div>
           <div>
-            <p className="text-2xl font-bold text-pink-600 mb-4">$ {product.price}</p>
+            {product.discount > 0 ? (
+              <div className="flex flex-col mb-4">
+                <span className="text-gray-400 line-through text-lg">$ {product.price}</span>
+                <span className="text-3xl font-bold text-pink-600">
+                  $ {(product.price * (1 - product.discount / 100)).toFixed(2)}
+                </span>
+              </div>
+            ) : (
+              <p className="text-3xl font-bold text-pink-600 mb-4">$ {product.price}</p>
+            )}
             <div className="flex gap-3">
               <button
                 onClick={handleAddToCart}
