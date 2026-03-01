@@ -18,38 +18,37 @@ const LOGIN = gql`
 
 const Login = ({ setIsLoggedIn }) => {
   const navigate = useNavigate();
-   const [email, setEmail] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const ADMIN_EMAILS = ['admin@bella.com'];
- const handleLogin = async (e) => {
-  e.preventDefault();
-  if (!email.trim() || !password.trim()) return alert("Please fill in all fields.");
-  setLoading(true);
-  try {
-    const { data } = await loginClient.mutate({
-      mutation: LOGIN,
-      variables: { email, password }
-    });
-    const user = data.login;
-    if (!ADMIN_EMAILS.includes(user.email)) {
-      alert("Access denied. Not an admin account.");
-      setLoading(false);
-      return;
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    if (!email.trim() || !password.trim()) return alert("Please fill in all fields.");
+    setLoading(true);
+    try {
+      const { data } = await loginClient.mutate({
+        mutation: LOGIN,
+        variables: { email, password }
+      });
+      const user = data.login;
+      if (!ADMIN_EMAILS.includes(user.email)) {
+        alert("Access denied. Not an admin account.");
+        setLoading(false);
+        return;
+      }
+      sessionStorage.setItem("admin", JSON.stringify(user));
+      setIsLoggedIn(true);
+      navigate('/add');
+    } catch (error) {
+      alert("Invalid credentials.");
     }
-    sessionStorage.setItem("admin", JSON.stringify(user));
-    setIsLoggedIn(true);
-     navigate('/add');
-  } catch (error) {
-    alert("Invalid credentials.");
-  }
-  setLoading(false);
-};
+    setLoading(false);
+  };
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
       <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md">
 
-        {/* Logo */}
         <div className="flex flex-col items-center mb-8">
           <img src="/logop.png" alt="Logo" className="h-16 w-16 object-contain mb-2" />
           <h1 className="text-2xl font-bold text-pink-700">Bella Admin</h1>

@@ -15,6 +15,18 @@ const GET_ALL_REVIEWS = gql`
   }
 `;
 
+const GET_PRODUCT_INFO = gql`
+  query GetProductInfo($ids: [UUID!]!) {
+    products(where: { id: { in: $ids } }) {
+      nodes {
+        id
+        name
+      }
+    }
+  }
+`;
+
+
 const GET_ALL_USERS = gql`
   query GetAllUsers {
     getAllUsers {
@@ -42,16 +54,23 @@ const Reviews = () => {
   const fetchReviews = async () => {
     setLoading(true);
     try {
-      const [reviewsRes, usersRes] = await Promise.all([
+      const [reviewsRes, usersRes] = await Promise.all([//idu istovremeno 
         reviewClient.query({ query: GET_ALL_REVIEWS, fetchPolicy: 'network-only' }),
         loginClient.query({ query: GET_ALL_USERS, fetchPolicy: 'network-only' })
       ]);
+
+      const allProductIds = reviewsRes.data.allReviews.map(r => r.productId).filter(Boolean);
+
+      const { data: productData } = await productsClient.query({
+        query: GET_PRODUCT_INFO,
+        variables: { ids: allProductIds },
+        fetchPolicy: 'network-only',
+      });
 
       const map = {};
       usersRes.data.getAllUsers.forEach(u => {
         map[u.id] = u.username;
       });
-
       setUsersMap(map);
       setReviews(reviewsRes.data.allReviews);
     } catch (error) {
@@ -83,6 +102,8 @@ const Reviews = () => {
     usersMap[r.userId]?.toLowerCase().startsWith(searchQuery.toLowerCase())
   );
 
+
+
   useEffect(() => {
     fetchReviews();
   }, []);
@@ -100,7 +121,6 @@ const Reviews = () => {
     <div className="p-4 sm:p-8 w-full">
       <h2 className="text-2xl font-bold text-gray-800 mb-6">All Reviews</h2>
 
-      {/* Search */}
       <input
         type="text"
         placeholder="Search by username or review text..."
@@ -109,7 +129,6 @@ const Reviews = () => {
         className="w-full max-w-md px-4 py-2.5 border border-gray-300 rounded-xl text-sm mb-6 focus:outline-none focus:ring-2 focus:ring-pink-400"
       />
 
-      {/* Desktop Table Header - hidden on mobile */}
       <div className="hidden md:grid grid-cols-[1fr_1fr_1fr_2fr_1fr_80px] gap-3 px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 text-xs font-semibold text-gray-500 uppercase mb-2">
         <span>Review ID</span>
         <span>Username</span>
@@ -128,11 +147,10 @@ const Reviews = () => {
               key={index}
               className="border border-gray-200 rounded-xl hover:bg-gray-50 transition overflow-hidden"
             >
-              {/* Desktop row */}
               <div className="hidden md:grid grid-cols-[1fr_1fr_1fr_2fr_1fr_80px] gap-3 px-4 py-3 items-center text-sm text-gray-700">
                 <p className="font-mono text-xs text-gray-400 truncate">{review.reviewId}</p>
                 <p className="font-mono text-xs text-gray-400 truncate">{usersMap[review.userId] || review.userId}</p>
-                <p className="font-mono text-xs text-gray-400 truncate">{review.productId}</p>
+                <p className="font-mono text-xs text-gray-400 truncate">{productData?.products?.nodes?.find(p => p.id === review.productId)?.name || review.productId}</p>
                 <p className="text-gray-600 text-sm line-clamp-2">{review.reviewText}</p>
                 <p className="text-xs text-gray-400">
                   {new Date(review.createdAt).toLocaleDateString("en-GB", {
@@ -147,7 +165,6 @@ const Reviews = () => {
                 </button>
               </div>
 
-              {/* Mobile card */}
               <div className="md:hidden p-4 flex flex-col gap-2">
                 <div className="flex justify-between items-start">
                   <div className="flex flex-col gap-0.5">

@@ -182,7 +182,6 @@ const List = () => {
         className="w-full max-w-md px-4 py-2.5 border border-gray-300 rounded-xl text-sm mb-6 focus:outline-none focus:ring-2 focus:ring-pink-400"
       />
 
-      {/* Desktop table header */}
       <div className="hidden md:grid grid-cols-[60px_1fr_80px_80px_80px_80px_100px] gap-3 px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 text-xs font-semibold text-gray-500 uppercase mb-2">
         <span>Image</span>
         <span>Name</span>
@@ -200,7 +199,6 @@ const List = () => {
           {filteredList.map((item) => (
             <div key={item.id} className="border border-gray-200 rounded-xl overflow-hidden">
 
-              {/* Desktop row */}
               <div className="hidden md:grid grid-cols-[60px_1fr_80px_80px_80px_80px_100px] gap-3 px-4 py-3 items-center text-sm text-gray-700">
                 <img
                   src={item.imageUrl}
@@ -228,7 +226,6 @@ const List = () => {
                 </div>
               </div>
 
-              {/* Mobile card */}
               <div className="md:hidden p-4 flex flex-col gap-3">
                 <div className="flex items-center gap-3">
                   <img
@@ -237,7 +234,7 @@ const List = () => {
                     className="w-16 h-16 object-cover rounded-xl shrink-0"
                   />
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-gray-800 text-sm truncate">{item.name}</p>
+                    <p className="font-semibold text-gray-800 text-sm">{item.name}</p>
                     <p className="text-pink-600 font-bold text-sm">${item.price}</p>
                     <div className="flex gap-2 mt-1 flex-wrap">
                       <span className="text-xs text-gray-500">{item.size}ml</span>
@@ -264,7 +261,6 @@ const List = () => {
                 </div>
               </div>
 
-              {/* Edit form - shared for both mobile and desktop */}
               {selectedProduct?.id === item.id && (
                 <div className="px-4 sm:px-6 py-4 bg-gray-50 border-t border-gray-200">
                   <h3 className="text-sm font-semibold text-gray-600 mb-3">Edit Product</h3>
