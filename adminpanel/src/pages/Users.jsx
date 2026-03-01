@@ -15,18 +15,6 @@ const GET_ALL_USERS = gql`
   }
 `;
 
-const SEARCH_USERS = gql`
-  query SearchUsers($query: String!) {
-    searchUsers(query: $query) {
-      id
-      username
-      email
-      isActive
-      isVerified
-      verificationToken
-    }
-  }
-`;
 
 const DELETE_USER = gql`
   mutation DeleteUser($userId: UUID!) {
@@ -60,19 +48,6 @@ const Users = () => {
     }
   };
 
-  const searchUsers = async (query) => {
-    try {
-      const { data } = await loginClient.query({
-        query: SEARCH_USERS,
-        variables: { query },
-        fetchPolicy: 'network-only',
-      });
-      setUsers(data.searchUsers || []);
-    } catch (error) {
-      console.error(error);
-      setUsers([]);
-    }
-  };
 
   const removeUser = async (id) => {
     if (!confirm("Are you sure you want to delete this user?")) return;
@@ -108,13 +83,10 @@ const Users = () => {
     fetchUsers();
   }, []);
 
-  useEffect(() => {
-    if (searchQuery.trim().length >= 1) {
-      searchUsers(searchQuery);
-    } else if (searchQuery === '') {
-      fetchUsers();
-    }
-  }, [searchQuery]);
+  const filteredUsers = users.filter((u) =>
+    u.username?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    u.email?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   if (loading) return (
     <div className="flex justify-center items-center h-64">
@@ -146,11 +118,11 @@ const Users = () => {
         <span>Actions</span>
       </div>
 
-      {users.length === 0 ? (
+      {filteredUsers.length === 0 ? (
         <div className="text-center py-12 text-gray-400">No users found.</div>
       ) : (
         <div className="flex flex-col gap-2">
-          {users.map((user) => (
+          {filteredUsers.map((user) => (
             <div
               key={user.id}
               className="border border-gray-200 rounded-xl hover:bg-gray-50 transition overflow-hidden"
