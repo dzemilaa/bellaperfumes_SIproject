@@ -208,13 +208,22 @@ const ProductsPage = () => {
                 )}
               </button>
 
-              <h2 className="font-bold text-lg">{product.name}</h2>
-              <p className="text-gray-600 text-sm">
+              <div className="flex items-center gap-2 mb-1">
+                <span className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded-full border ${product.genderId === 1 ? 'border-pink-200 text-pink-500 bg-pink-50' :
+                    product.genderId === 2 ? 'border-blue-200 text-blue-500 bg-blue-50' :
+                      'border-gray-200 text-gray-500 bg-gray-50'
+                  }`}>
+                  {product.genderId === 1 ? 'Women' : product.genderId === 2 ? 'Men' : 'Unisex'}
+                </span>
+                <span className="text-gray-400 text-xs font-medium">{product.size}ml</span>
+              </div>
+
+              <h2 className="font-bold text-lg text-gray-800">{product.name}</h2>
+              <p className="text-gray-500 text-sm leading-snug">
                 {product.description
                   ? product.description.split('. ')[0] + (product.description.split('. ').length > 1 ? '...' : '')
                   : ''}
               </p>
-              <p className="text-gray-600 text-sm">{product.size}ml</p>
 
               <div className="flex items-center justify-between mt-2">
                 <div className="flex flex-col">

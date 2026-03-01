@@ -14,6 +14,7 @@ const GET_PRODUCT = gql`
         size
         price
         discount
+        genderId
         imageUrl
         description
         brands {
@@ -193,8 +194,16 @@ const ProductPage = () => {
         </div>
         <div className="flex-1 flex flex-col justify-between gap-4">
           <div>
-            <p className="text-sm text-pink-500 font-medium uppercase tracking-widest">{product.brands?.name}</p>
-            <h1 className="text-3xl font-bold text-gray-800 mt-1">{product.name}</h1>
+            <div className="flex items-center gap-3">
+              <p className="text-sm text-pink-500 font-medium uppercase tracking-widest font-serif">{product.brands?.name}</p>
+              <span className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded-full border ${product.genderId === 1 ? 'border-pink-200 text-pink-500 bg-pink-50' :
+                  product.genderId === 2 ? 'border-blue-200 text-blue-500 bg-blue-50' :
+                    'border-gray-200 text-gray-500 bg-gray-50'
+                }`}>
+                {product.genderId === 1 ? 'Women' : product.genderId === 2 ? 'Men' : 'Unisex'}
+              </span>
+            </div>
+            <h1 className="text-3xl font-bold text-gray-800 mt-2">{product.name}</h1>
             <p className="text-gray-500 mt-1">{product.size}ml</p>
             <p className="text-gray-600 mt-4 text-sm leading-relaxed">{product.description}</p>
           </div>
