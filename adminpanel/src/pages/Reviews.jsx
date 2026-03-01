@@ -139,7 +139,7 @@ const Reviews = () => {
       <div className="hidden md:grid grid-cols-[1fr_1fr_1fr_2fr_1fr_80px] gap-3 px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 text-xs font-semibold text-gray-500 uppercase mb-2">
         <span>Review ID</span>
         <span>Username</span>
-        <span>Product ID</span>
+        <span>Product Name</span>
         <span>Review Text</span>
         <span>Created At</span>
         <span>Action</span>
