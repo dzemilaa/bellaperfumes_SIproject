@@ -170,8 +170,12 @@ export default function PlaceOrderPage() {
       });
 
       if (data.createOrder.success) {
+
         alert(`Order placed successfully! Total: $${total.toFixed(2)}`);
         navigate("/orders");
+        if (formData.promoCode === "DISCOUNT10") {
+          localStorage.setItem(`promo_code_${data.createOrder.order.id}`, "DISCOUNT10");
+        }
       } else {
         alert(`Failed to place order: ${data.createOrder.message}`);
       }
