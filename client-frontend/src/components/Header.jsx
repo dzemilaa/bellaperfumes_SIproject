@@ -288,7 +288,7 @@ const Header = () => {
           {isMobileMenuOpen && (
             <div className="md:hidden mt-2 bg-white rounded-lg shadow-md p-4 space-y-3 text-amber-950 text-center">
               {navItems.map(item => (
-                <a key={item.id} href={item.link} className="block hover:text-amber-600 text-sm font-medium">{item.name}</a>
+                <a onClick={() => setIsMobileMenuOpen(false)} key={item.id} href={item.link} className="block hover:text-amber-600 text-sm font-medium">{item.name}</a>
               ))}
             </div>
           )}
