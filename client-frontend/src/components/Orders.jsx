@@ -9,6 +9,7 @@ const GET_ORDERS = gql`
       orderDate
       status
       totalAmount
+      promoCode
       orderItems {
         productId
         price
@@ -192,10 +193,13 @@ export default function OrdersPage() {
         <p>No orders yet.</p>
       ) : (
         orders.map((order) => {
-          const promoCodeUsed = localStorage.getItem(`promo_code_${order.id}`);
-          const subtotal = (order.orderItems.reduce((acc, item) => acc + getDiscountedPrice(item.price, item.productId) * item.quantity, 0));
+          const promoCodeUsed = order.promoCode;
+          const subtotal = order.orderItems.reduce(
+            (acc, item) => acc + getDiscountedPrice(item.price, item.productId) * item.quantity, 0
+          );
           const discountAmount = promoCodeUsed === "DISCOUNT10" ? subtotal * 0.1 : 0;
           const calculatedTotal = subtotal + 2 - discountAmount;
+
           return (
             <div key={order.id} className="border p-4 mb-4 rounded shadow">
               <div className="flex flex-wrap justify-between items-center gap-2">

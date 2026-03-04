@@ -34,6 +34,7 @@ const CREATE_ORDER = gql`
     $email: String!
     $phone: String!
     $address: String!
+    $promoCode: String
   ) {
     createOrder(
       userId: $userId
@@ -42,6 +43,7 @@ const CREATE_ORDER = gql`
       email: $email
       phone: $phone
       address: $address
+      promoCode: $promoCode
     ) {
       success
       message
@@ -49,6 +51,7 @@ const CREATE_ORDER = gql`
         id
         totalAmount
         status
+        promoCode
         orderItems {
           productId
           price
@@ -166,16 +169,13 @@ export default function PlaceOrderPage() {
           email: formData.email,
           phone: formData.phone,
           address: formData.address,
+          promoCode: promoApplied ? formData.promoCode : null,
         },
       });
 
       if (data.createOrder.success) {
-
         alert(`Order placed successfully! Total: $${total.toFixed(2)}`);
         navigate("/orders");
-        if (formData.promoCode === "DISCOUNT10") {
-          localStorage.setItem(`promo_code_${data.createOrder.order.id}`, "DISCOUNT10");
-        }
       } else {
         alert(`Failed to place order: ${data.createOrder.message}`);
       }
@@ -260,7 +260,7 @@ export default function PlaceOrderPage() {
         )}
         {promoDiscount > 0 && (
           <div className="flex justify-between text-green-600">
-            <span>Promo Code</span>
+            <span>Promo Code (DISCOUNT10)</span>
             <span>-${promoDiscount.toFixed(2)}</span>
           </div>
         )}

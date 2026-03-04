@@ -14,6 +14,7 @@ const GET_ALL_ORDERS = gql`
       lastName
       phone
       address
+      promoCode
       orderItems {
         productId
         price
@@ -127,7 +128,6 @@ const Orders = () => {
     }, 0);
     const deliveryFee = 2;
     const discountAmount = promoCode === 'DISCOUNT10' ? subtotal * 0.1 : 0;
-
     return subtotal + deliveryFee - discountAmount;
   };
 
@@ -153,7 +153,7 @@ const Orders = () => {
       ) : (
         <div className="flex flex-col gap-4">
           {orders.map((order) => {
-            const promoCode = localStorage.getItem(`promo_code_${order.id}`);
+            const promoCode = order.promoCode;
             const calculatedTotal = calcOrderTotal(order.orderItems, promoCode);
             return (
               <div key={order.id} className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
