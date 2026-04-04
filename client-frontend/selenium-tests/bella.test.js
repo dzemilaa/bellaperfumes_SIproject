@@ -36,8 +36,6 @@ function buildDriver() {
   options.addArguments("--no-sandbox");
   options.addArguments("--disable-dev-shm-usage");
   options.addArguments("--window-size=1280,900");
-
-  // 👇 OVO JE ISPRAVNO
   options.setPageLoadStrategy("eager");
 
   return new Builder()
